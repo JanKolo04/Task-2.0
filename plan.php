@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/plan.css">
-    <script src="js/calendar.js"></script>
+    <script src="js/plan.js"></script>
     <title>Week planer - Calendar</title>
 </head>
 <body>
@@ -35,8 +35,8 @@
         else if(isset($_POST['delete'])) {
             $tasks_manipulation->delete_plan($_POST['delete']);
         }
-        else if(isset($_POST['add_plan'])) {
-            $tasks_manipulation->add_plan();
+        else if(isset($_POST['add_task'])) {
+            $tasks_manipulation->add_task();
         }
 
         class Plan {
@@ -115,9 +115,7 @@
                             $desc = substr($desc, 0, 30).'...';
                         }
 
-                        //TODO: create show more button, whole action made in JS
-
-                        // print plan
+                        // print tasks
                         echo "
                             <div class='task {$status} {$row['type']}'>
                                 <form method='POST'>
@@ -127,8 +125,9 @@
                                     </div>
                                     
                                     <div class='task-middle'>
-                                        <p class='task-description'>$desc</p>
-                                        <button class='show-more-desc-task'>↓</button>
+                                        <p class='task-description task-description-short' id='short_text_{$row['task_id']}'>$desc</p>
+                                        <p class='task-description show-more-text' id='show_more_{$row['task_id']}'>{$row['description']}</p>
+                                        <a class='show-more-button-task' onclick='show_more({$row['task_id']}, this)'>↓</a>
                                     </div>
 
                                     <div class='task-button-manipulation'>
@@ -211,7 +210,7 @@
                 }
             }
 
-            function add_plan() {
+            function add_task() {
                 global $con;
 
                 $plan_type = "basic";
@@ -234,7 +233,7 @@
                 $date = date('Y-m-d', strtotime($_POST['date']));
 
                 // add new plan
-                $sql = "INSERT INTO tasks(plan_id, owner_id, name, day, date, type) VALUES({$this->plan_id}, {$_POST['owner_of_task']}, '{$_POST['plan_name']}', '$day', '$date', '$plan_type')";
+                $sql = "INSERT INTO tasks(plan_id, owner_id, name, description, day, date, type) VALUES({$this->plan_id}, {$_POST['owner_of_task']}, '{$_POST['plan_name']}', '{$_POST['plan_description']}', '$day', '$date', '$plan_type')";
                 $query = $con->query($sql);
 
                 if(!$query) {
@@ -305,6 +304,7 @@
             <h2>Add new task</h2>
             <form method="POST">
                 <input class="input_adding_system" type="text" name="plan_name" placeholder="Enter new task name..." required>
+                <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task desc..." required>
 
                 <select name="date" class="select_adding_system">
                     <option selected disabled>Select date</option>
@@ -324,7 +324,7 @@
                 </select>
 
                 <hr>
-                <button type="submit" name="add_plan" id="add_plan_submit" class="submit-button">Add plan</button>
+                <button type="submit" name="add_task" id="add_task_submit" class="submit-button">Add plan</button>
             </form>
         </div>
 

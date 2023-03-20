@@ -168,6 +168,7 @@
 }
 
 .task_name {
+    font-weight: bold;
     margin: 10px 0px 10px;
     text-transform: capitalize;
 }
@@ -188,6 +189,7 @@
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
+    color: black;
 }
 
 .done > form > .task_name {
@@ -205,9 +207,14 @@
 .task-description {
     text-align: left;
     margin-bottom: 0px;
+    overflow-wrap: anywhere;
 }
 
-.show-more-desc-task {
+.show-more-text {
+    display: none;
+}
+
+.show-more-button-task {
     cursor: pointer;
     border: none;
     background-color: transparent;
