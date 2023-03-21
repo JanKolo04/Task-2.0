@@ -192,7 +192,7 @@
     color: black;
 }
 
-.done > form > .task_name {
+.done {
     text-decoration: line-through;
 }
 

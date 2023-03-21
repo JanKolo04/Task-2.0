@@ -95,6 +95,9 @@
     
                 if($query->num_rows > 0) {
                     while($row = $query->fetch_assoc()) {
+                        // check on which satatus is task
+                        // task can be on two status 1 or 0
+                        // 1 = is done, 0 = is not done
                         $status = "";
                         $complete_button = "complete";
                         if($row['status'] == 1) {
@@ -117,10 +120,10 @@
 
                         // print tasks
                         echo "
-                            <div class='task {$status} {$row['type']}'>
+                            <div class='task {$row['type']}'>
                                 <form method='POST'>
                                     <div class='task-top'>
-                                        <p class='task_name'>{$row['name']}</p>
+                                        <p class='task_name {$status}'>{$row['name']}</p>
                                         <div class='flex-right'>$avatar</div>
                                     </div>
                                     
