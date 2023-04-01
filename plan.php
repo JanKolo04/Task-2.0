@@ -314,7 +314,7 @@
                 <h2>Add new task</h2>
                 <form method="POST">
                     <input class="input_adding_system" type="text" name="plan_name" placeholder="Enter new task name..." required>
-                    <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task desc..." required>
+                    <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task description..." required>
 
                     <select name="date" class="select_adding_system">
                         <option selected disabled>Select date</option>
