@@ -1,0 +1,242 @@
+#main {
+    display: flex;
+    flex-direction: row;
+}
+
+/*---adding system----*/
+#adding_section {
+    padding: 20px 20px;
+    display: flex;
+    width: 300px;
+    height: calc(100vh - 70px - 40px);
+    flex-direction: column; 
+    background-color: rgb(245, 245, 245);  
+}
+
+#adding_section > div {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#adding_section > div > form > hr {
+    width: 100%;
+}
+
+#adding_section > div > form > * {
+    margin: 10px 0px;
+}
+
+#people_count {
+    text-align: left;
+    margin-bottom: 0px !important;
+    font-size: 14px;
+}
+
+.input_adding_system {
+    width: calc(100% - 10px - 2px);
+    border: 1px solid black;
+    border-radius: 6px;
+    outline: none;
+    background-color: white;
+    color: black;
+    padding: 10px 5px;
+    transition: 0.5s;
+}
+
+::placeholder {
+    color: black;
+}
+
+.input_adding_system:focus, .input_adding_system:hover {
+    transition: 0.5s;
+    border-color: blue;
+}
+
+.select_adding_system {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 6px;
+    outline: none;
+    background-color: white;
+    color: black;
+    padding: 10px 5px;
+    transition: 0.5s;
+    appearance: none;
+}
+
+.select_adding_system:hover {
+    transition: 0.5s;
+    border-color: blue;
+}
+
+.submit-button {
+    width: 94%;
+    border: 1px solid black;
+    border-radius: 6px;
+    outline: none;
+    background-color: white;
+    color: black;
+    padding: 10px 5px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    transition: 0.5s;
+    border-color: blue;
+}
+
+/*---week container---*/
+#week-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: calc(100% - 300px);
+    background-color: #fafafa;
+}
+
+/*---day container---*/
+.day-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 10px 10px;
+    width: 14%;
+    padding: 5px;
+    transition: 0.5s;
+}
+
+.today {
+    background-color: rgb(0, 90, 255, 0.05);
+}
+
+.day-name {
+    padding: 0px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    border-bottom: 1px solid grey;
+}
+
+.day-name > h3 {
+    margin: 10px 0px;
+}
+
+.today > .day-name {
+    color: rgb(0, 93, 255);
+    border-bottom: 1px solid rgb(0, 93, 255);
+}
+
+.today > .day-name > h3 > .day-date {
+    color: rgb(179, 206, 255);
+}
+
+.day-date {
+    color: grey;
+}
+
+.add-plan-icon {
+    width: 20px;
+    cursor: pointer;
+}
+
+/*--task--*/
+.task {
+    margin: 20px 0px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 4px);
+    border: 2px solid #ffcc33;
+}
+
+.task > form {
+    width: calc(100% - 10px);
+    padding: 5px;
+}
+
+/*--top section of task--*/
+.task-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.task_name {
+    font-weight: bold;
+    margin: 10px 0px 10px;
+    text-transform: capitalize;
+}
+
+.flex-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task_owner_img {
+    font-size: 14px;
+    margin: 0px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    color: black;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+/*--middle section of task--*/
+.task-middle {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.task-description {
+    text-align: left;
+    margin-bottom: 0px;
+    overflow-wrap: anywhere;
+}
+
+.show-more-text {
+    display: none;
+}
+
+.show-more-button-task {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+
+.task-button-manipulation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.Primary {
+    background-color: #ffffcc;
+}
+
+.Primary .task-done {
+    opacity: 0.9;
+}
+
+.Important {
+    color: red;
+    background-color: #ffffcc;
+}
+
