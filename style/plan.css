@@ -220,6 +220,10 @@
     background-color: transparent;
 }
 
+.hidden_button_show_more {
+    display: none;
+}
+
 .task-button-manipulation {
     display: flex;
     flex-direction: row;
