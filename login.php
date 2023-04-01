@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/login.css">
+    <link type="text/css" rel="stylesheet" href="style/header_footer.css">
     <title>Week planer - Login</title>
 </head>
 <body>
 
     <?php
     
+        include("header.php");
         include("connection.php");
 
         class Login {

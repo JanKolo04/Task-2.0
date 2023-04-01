@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/register.css">
+    <link type="text/css" rel="stylesheet" href="style/header_footer.css">
     <title>Week planer - Register</title>
 </head>
 <body>
 
     <?php
-    
+
+        include("header.php");
         include("connection.php");
 
         $register = new Register();

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/plan.css">
+    <link type="text/css" rel="stylesheet" href="style/header_footer.css">
     <script src="js/plan.js"></script>
     <title>Week planer - Calendar</title>
 </head>
@@ -10,7 +11,8 @@
 
 
     <?php
-    
+
+        include("header.php");
         include("connection.php");
 
         $plan = new Plan(); 
@@ -302,58 +304,60 @@
     ?>
 
 
-    <div id="adding_section">
-        <div id="add_new_task">
-            <h2>Add new task</h2>
-            <form method="POST">
-                <input class="input_adding_system" type="text" name="plan_name" placeholder="Enter new task name..." required>
-                <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task desc..." required>
+    <div id="main">
+        <div id="adding_section">
+            <div id="add_new_task">
+                <h2>Add new task</h2>
+                <form method="POST">
+                    <input class="input_adding_system" type="text" name="plan_name" placeholder="Enter new task name..." required>
+                    <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task desc..." required>
 
-                <select name="date" class="select_adding_system">
-                    <option selected disabled>Select date</option>
-                    <?php dates_of_current_week(); ?>
-                </select>
-                
-                <select name="type" class="select_adding_system">
-                    <option disabled selected>Choose type of plan</option>
-                    <option>Basic</option>
-                    <option>Primary</option>
-                    <option>Important</option>
-                </select>
+                    <select name="date" class="select_adding_system">
+                        <option selected disabled>Select date</option>
+                        <?php dates_of_current_week(); ?>
+                    </select>
+                    
+                    <select name="type" class="select_adding_system">
+                        <option disabled selected>Choose type of plan</option>
+                        <option>Basic</option>
+                        <option>Primary</option>
+                        <option>Important</option>
+                    </select>
 
-                <select name="owner_of_task" class="select_adding_system">
-                    <option disabled selected>Choose user for task</option>
-                    <?php $plan->fetch_users_in_plan(); ?>
-                </select>
+                    <select name="owner_of_task" class="select_adding_system">
+                        <option disabled selected>Choose user for task</option>
+                        <?php $plan->fetch_users_in_plan(); ?>
+                    </select>
 
-                <hr>
-                <button type="submit" name="add_task" id="add_task_submit" class="submit-button">Add plan</button>
-            </form>
+                    <hr>
+                    <button type="submit" name="add_task" id="add_task_submit" class="submit-button">Add plan</button>
+                </form>
+            </div>
+
+            <div id="add_new_people">
+                <h2 style="margin-top: 40px;">Add people into plan</h2>
+                <form method="POST">
+                    <p id="people_count">People: <?php echo $plan->__count_users_in_plan(); ?>/3</p>
+                    <input class="input_adding_system" type="email" name="new_user_email" placeholder="Enter new user email..." required>
+                    
+                    <hr>
+                    <button type="submit" name="add_people" class="submit-button">Send invitation</button> 
+                    
+                    <p class="error_call">
+                        <?php
+                            // run function with adding new people into plan
+                            if(isset($_POST['add_people'])) {
+                                echo $people_in_plan->add_people();
+                            }
+                        ?>
+                    </p>
+                </form>
+            </div>
         </div>
 
-        <div id="add_new_people">
-            <h2 style="margin-top: 40px;">Add people into plan</h2>
-            <form method="POST">
-                <p id="people_count">People: <?php echo $plan->__count_users_in_plan(); ?>/3</p>
-                <input class="input_adding_system" type="email" name="new_user_email" placeholder="Enter new user email..." required>
-                
-                <hr>
-                <button type="submit" name="add_people" class="submit-button">Send invitation</button> 
-                
-                <p class="error_call">
-                    <?php
-                        // run function with adding new people into plan
-                        if(isset($_POST['add_people'])) {
-                            echo $people_in_plan->add_people();
-                        }
-                    ?>
-                </p>
-            </form>
+        <div id="week-container">
+            <?php $plan->print_days_box(); ?>
         </div>
-    </div>
-
-    <div id="week-container">
-        <?php $plan->print_days_box(); ?>
     </div>
 
 </body>

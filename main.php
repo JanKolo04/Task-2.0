@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/main.css">
+    <link type="text/css" rel="stylesheet" href="style/header_footer.css">
     <title>Week planer - Main page</title>
 </head>
 <body>
+
+    <?php
+    
+        include("header.php");
+
+    ?>
 
     <div id="main-text">
         <h2>Choose calendar or reminder</h2>
