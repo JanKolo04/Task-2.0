@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/all_plans.css">
     <link type="text/css" rel="stylesheet" href="style/header_footer.css">
-    <title>Week planer - Main page</title>
+    <title>Week planer - Plans</title>
 </head>
 <body>
 
@@ -48,7 +48,13 @@
 
     ?>
 
-    <div id="all_plans"><?php $all_user_plans->find_and_print(); ?></div>
+    <div id="all_plans">
+        <?php $all_user_plans->find_and_print(); ?>
+        <div class='plan add_plan'>
+            <a class="add_plan_button" href="add_new_plan.php">+</a>
+            <p class="plan_name">Add new plan</p>
+        </div>
+    </div>
 
 </body>
 </html>

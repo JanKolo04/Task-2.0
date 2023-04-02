@@ -115,9 +115,13 @@
                         }
 
                         // make shortcut of description if len of desc id loger than 30
+                        // when your text is longer than 30 don't add class into button
+                        // hidden_button_show_more - this class have display: none;
                         $desc = $row['description'];
+                        $show_more_class = "hidden_button_show_more";
                         if(strlen($row['description']) > 30) {
                             $desc = substr($desc, 0, 30).'...';
+                            $show_more_class = "";
                         }
 
                         // print tasks
@@ -132,7 +136,7 @@
                                     <div class='task-middle'>
                                         <p class='task-description task-description-short' id='short_text_{$row['task_id']}'>$desc</p>
                                         <p class='task-description show-more-text' id='show_more_{$row['task_id']}'>{$row['description']}</p>
-                                        <a class='show-more-button-task' onclick='show_more({$row['task_id']}, this)'>↓</a>
+                                        <a class='show-more-button-task $show_more_class' onclick='show_more({$row['task_id']}, this)'>↑</a>
                                     </div>
 
                                     <div class='task-button-manipulation'>
@@ -310,7 +314,7 @@
                 <h2>Add new task</h2>
                 <form method="POST">
                     <input class="input_adding_system" type="text" name="plan_name" placeholder="Enter new task name..." required>
-                    <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task desc..." required>
+                    <input class="input_adding_system" type="text" name="plan_description" placeholder="Enter new task description..." required>
 
                     <select name="date" class="select_adding_system">
                         <option selected disabled>Select date</option>
