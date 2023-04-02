@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/all_plans.css">
     <link type="text/css" rel="stylesheet" href="style/header_footer.css">
-    <title>Week planer - Main page</title>
+    <title>Week planer - Plans</title>
 </head>
 <body>
 
