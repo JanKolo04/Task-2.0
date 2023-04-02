@@ -48,7 +48,13 @@
 
     ?>
 
-    <div id="all_plans"><?php $all_user_plans->find_and_print(); ?></div>
+    <div id="all_plans">
+        <?php $all_user_plans->find_and_print(); ?>
+        <div class='plan add_plan'>
+            <a class="add_plan_button" href="add_new_plan.php">+</a>
+            <p class="plan_name">Add new plan</p>
+        </div>
+    </div>
 
 </body>
 </html>

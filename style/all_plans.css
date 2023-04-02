@@ -49,3 +49,40 @@
     transition: 0.5s;
     background-color: rgb(245, 245, 245);
 }
+
+/*--add new plan--*/
+.add_plan {
+    height: 316px;
+    border: 1px dashed grey;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(245, 245, 245);
+}
+
+.add_plan_button {
+    height: 80px;
+    width: 80px;
+    line-height: 0;
+    border-radius: 100%;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    margin-top: 100px;
+    background-color: #e6e6e6;
+    color: #808080;
+    transition: 0.5s;
+}
+
+.add_plan_button:hover {
+    transition: 0.5s;
+    color: #404040;
+}
+
+.add_plan > p {
+    margin-bottom: 40px;
+}
