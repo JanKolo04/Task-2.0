@@ -15,17 +15,14 @@
         include("header.php");
         include("connection.php");
 
+        // object with whole body of plan
         $plan = new Plan(); 
-        // set class variables for better performance
-        $plan->__construct();
 
+        // create object with function to manipulate tasks
         $tasks_manipulation = new Tasks_manipulation();
-        // set class variables for better performance
-        $tasks_manipulation->__construct();
 
         // create new object with function to adding people into plan and manipulate with this data
         $people_in_plan = new People_in_plan();
-        $people_in_plan->__construct();
 
         // check which function code have to run
         if(isset($_POST['complete'])) {
@@ -169,11 +166,11 @@
 
             }
 
-            function __count_users_in_plan() {
+            function count_users_in_plan() {
                 return $this->quantity_of_user;
             }
 
-            function __users_in_plan() {
+            function users_in_plan() {
                 return $this->users_array;
             }
         }
@@ -262,7 +259,7 @@
             function add_people() {
                 global $con, $plan, $add_new_user_error;
 
-                if($plan->__count_users_in_plan() == 3) {
+                if($plan->count_users_in_plan() == 3) {
                     return "You can't add more people into plan";
                 }
                 
@@ -274,7 +271,7 @@
                 $search = "SELECT user_id FROM users WHERE email='$user_email'";
                 $query_search = $con->query($search);
 
-                $array_with_users = $plan->__users_in_plan();
+                $array_with_users = $plan->users_in_plan();
                 // check if user doesn't exist in plan
                 for($i=0; $i<sizeof($array_with_users); $i++) {
                     // if user exist in plan return error
@@ -341,7 +338,7 @@
             <div id="add_new_people">
                 <h2 style="margin-top: 40px;">Add people into plan</h2>
                 <form method="POST">
-                    <p id="people_count">People: <?php echo $plan->__count_users_in_plan(); ?>/3</p>
+                    <p id="people_count">People: <?php echo $plan->count_users_in_plan(); ?>/3</p>
                     <input class="input_adding_system" type="email" name="new_user_email" placeholder="Enter new user email..." required>
                     
                     <hr>
