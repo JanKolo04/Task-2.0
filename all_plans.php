@@ -16,7 +16,7 @@
         class All_Plans {
             private $user_id;
 
-            function __counstruct() {
+            function __construct() {
                 // $this->user_id = $_SESSION['user_id'];
                 $this->user_id = 1;
             }
@@ -44,7 +44,6 @@
         }
 
         $all_user_plans = new All_Plans();
-        $all_user_plans->__counstruct();
 
     ?>
 
