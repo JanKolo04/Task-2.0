@@ -13,13 +13,33 @@
         include("header.php");
         include("connection.php");
 
-        
+        class Plan {
+            private function validData() {
+                global $con;
+
+                // check if name of plan is not used
+                $sql = "SELECT plan_id FROM plans WHERE name='{$_POST['planName']}'";
+                $query = $con->query($sql);
+
+                if($query->num_rows != 0) {
+                    return True;
+                }
+                else {
+                    return False;
+                }
+            }
+            public function addNewPlan() {
+                global $con;
+                
+                // id fucntion to valid data return False add new plan
+            }
+        }
     ?>
 
 <div class="form">
     <form method="POST">
-        <label for="planNameInput">Nazwa planu:</label>
-        <input type="text" id="planNameInput" name="planNameInput">
+        <label for="planName">Nazwa planu:</label>
+        <input type="text" id="planName" name="planName">
 
         <label for="planColorInput">Kolor:</label>
         <input type="color" id="planColorInput" name="planColorInput" value="#ffffff">
