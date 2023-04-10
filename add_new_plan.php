@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/add_new_plan.css">
     <link type="text/css" rel="stylesheet" href="style/header_footer.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Week planer - Add new plan</title>
 </head>
 <body>
 
     <?php
-    
+
         include("header.php");
         include("connection.php");
+
+        $plan = new Plan();
+        if(isset($_POST['addPlanBtn'])) {
+            $plan->addNewPlan();
+        }
 
         class Plan {
             private function validData() {
@@ -20,7 +26,8 @@
                 // check if name of plan is not used
                 $sql = "SELECT plan_id FROM plans WHERE name='{$_POST['planName']}'";
                 $query = $con->query($sql);
-
+                
+                // if query return id reutn true
                 if($query->num_rows != 0) {
                     return True;
                 }
@@ -28,10 +35,41 @@
                     return False;
                 }
             }
+
+            private function addNewUsers($plan_id) {
+                global $con;
+
+                // cookie with all user email
+                $emails = $_COOKIE['emails'];
+                $emails = explode(",", $emails);
+                for($i=0; $i<sizeof($emails); $i++) {
+                    // add new user
+                    // in this query I add function to find user id by his email
+                    $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
+                    VALUES($plan_id, (SELECT user_id FROM users WHERE email='{$emails[$i]}'))";
+                    $query_insert_new_user = $con->query($sql_insert_new_user);
+
+                }
+            }
+
             public function addNewPlan() {
                 global $con;
                 
-                // id fucntion to valid data return False add new plan
+                // if function validData() return False add new plan
+                if($this->validData() == False) {
+                    // add new plan
+                    $sql = "INSERT INTO plans(name, bg_photo) VALUES('{$_POST['planName']}', '{$_POST['planColor']}');";
+                    $query = $con->query($sql);
+                    // find id this plan
+                    $sql = "SELECT plan_id FROM plans WHERE name='{$_POST['planName']}'";
+                    $query = $con->query($sql);
+
+                    // add plan_id into variable
+                    $plan_id = $query->fetch_assoc()['plan_id'];
+                    // add people into plan
+                    $this->addNewUsers($plan_id);
+                    
+                }
             }
         }
     ?>
@@ -42,7 +80,7 @@
         <input type="text" id="planName" name="planName">
 
         <label for="planColorInput">Kolor:</label>
-        <input type="color" id="planColorInput" name="planColorInput" value="#ffffff">
+        <input type="color" id="planColorInput" name="planColor" value="#ffffff">
 
         <label for="planUserInput">Użytkownik:</label>
         <input type="email" id="planUserEmail" name="planUserInput">
@@ -53,7 +91,7 @@
             <a class="addButton" onclick="AddNewUser();">Add user</a>
         </div>
 
-        <button class="addButton" type="button" id="addPlanBtn">Dodaj</button>
+        <button class="addButton" type="submit" id="addPlanBtn" name="addPlanBtn" onclick="PassEmailToCookies();">Dodaj</button>
     </form>
 </div>
 

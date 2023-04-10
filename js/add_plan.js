@@ -31,7 +31,7 @@ function AddNewUser() {
         let email = document.createElement("span");
         email.classList.add("email");
         // set name for new user
-        let nameForEmail = "newUser"+(parseInt(countAddedUsers.innerHTML)+1);
+        let nameForEmail = "newUser";
         email.setAttribute("name", nameForEmail);
         email.innerHTML = newEmail.value;
         userEmail.appendChild(email);
@@ -42,6 +42,10 @@ function AddNewUser() {
         user.appendChild(deleteButton);
         // add one more if user was addded
         countAddedUsers.innerHTML = parseInt(countAddedUsers.innerHTML)+1;
+        
+        // add email into cookie
+        // over write acctually cookie which have array with emails
+        PassEmailToCookies();
 
         //clear value after add
         newEmail.value = "";
@@ -55,4 +59,12 @@ function CreateButton() {
     button.innerHTML = "X";
 
     return button;
+}
+
+function PassEmailToCookies() {
+    const d = new Date();
+    d.setTime(d.getTime() + (24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = "emails="+listOfAddedUsers+";"+expires+";path=/";
+    
 }
