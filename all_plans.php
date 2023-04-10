@@ -23,10 +23,12 @@
 
             function find_and_print() {
                 global $con;
-
-                $sql = "SELECT * FROM plans WHERE users_id IN ({$this->user_id})";
+                
+                // find plans in which user is
+                $sql = "SELECT plans.* FROM users_in_plan INNER JOIN plans ON users_in_plan.plan_id=plans.plan_id WHERE users_in_plan.user_id={$this->user_id}";
                 $query = $con->query($sql);
 
+                // if some plans will find print hmtl object with plan
                 if($query->num_rows > 0) {
                     while($row = $query->fetch_assoc()) {
                         echo "
