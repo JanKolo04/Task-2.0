@@ -3,10 +3,10 @@ const allAddedUsers = document.querySelector(".allAddedUsers");
 const countAddedUsers = document.querySelector("#usersCountValue");
 
 let listOfAddedUsers = [];
-function AddNewUser() {
+function AddNewUserBox() {
     let newEmail = document.querySelector("#planUserEmail");
     // valid data
-    if(newEmail.value != "" && countAddedUsers.innerHTML < 3) {
+    if(newEmail.value != "" && countAddedUsers.innerHTML < 2) {
         // when email exist in list return alert
         for (let item of listOfAddedUsers) {
             if(newEmail.value == item) {
