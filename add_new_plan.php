@@ -20,12 +20,13 @@
         class Plan {
             private $entered_users;
 
-            public function __construct() {
-                $this->entered_users = explode(',', $_COOKIE['emails']);
-            }
-
             private function validData() {
                 global $con;
+
+                // add value into $entered_users property
+                // I add value into property here because I create this cookie in JS
+                $this->entered_users = explode(',', $_COOKIE['emails']);
+
                 // check if name of plan is not used
                 $sql = "SELECT plan_id FROM plans WHERE name='{$_POST['planName']}'";
                 $query = $con->query($sql);
@@ -53,15 +54,20 @@
                 // chnage tmp email to email from$_SESSION['email']
                 $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
                 VALUES($plan_id, (SELECT user_id FROM users WHERE email='jankolodziej99@gmail.com'))";
+
                 $query_insert_new_user = $con->query($sql_insert_new_user);
 
-                for($i=0; $i<sizeof($this->entered_users); $i++) {
-                    // add new user
-                    // in this query I add function to find user id by his email
-                    $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
-                    VALUES($plan_id, (SELECT user_id FROM users WHERE email='{$this->entered_users[$i]}'))";
-                    $query_insert_new_user = $con->query($sql_insert_new_user);
+                // if first index of array have value null don't add other users
+                if($this->entered_users[0] != 'null') {
+                    for($i=0; $i<sizeof($this->entered_users); $i++) {
+                        echo $i;
+                        // add new user
+                        // in this query I add function to find user id by his email
+                        $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
+                        VALUES($plan_id, (SELECT user_id FROM users WHERE email='{$this->entered_users[$i]}'))";
 
+                        $query_insert_new_user = $con->query($sql_insert_new_user);
+                    }
                 }
             }
 
@@ -81,6 +87,10 @@
                     $plan_id = $query->fetch_assoc()['plan_id'];
                     // add people into plan
                     $this->addNewUsers($plan_id);
+
+                    //reset cookie
+                    setcookie('emails', null, -1, '/');
+
                     // move into plan page
                     header("Location: plan.php?id={$plan_id}");
                 }
