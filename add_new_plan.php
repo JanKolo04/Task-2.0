@@ -13,14 +13,19 @@
 
         include("header.php");
         include("connection.php");
-
+        
         // create object from Plan class
         $plan = new Plan();
 
         class Plan {
+            private $entered_users;
+
+            public function __construct() {
+                $this->entered_users = explode(',', $_COOKIE['emails']);
+            }
+
             private function validData() {
                 global $con;
-
                 // check if name of plan is not used
                 $sql = "SELECT plan_id FROM plans WHERE name='{$_POST['planName']}'";
                 $query = $con->query($sql);
@@ -31,6 +36,12 @@
                     return True;
                 }
                 else {
+                    // if in entered users is your email return True
+                    // replace tmp email with email from $_SESSION['email']
+                    if(in_array('jankolodziej99@gmail.com', $this->entered_users)) {
+                        echo "<script>alert('You canot add yourself into plan, because you will be add automatically')</script>";
+                        return True;
+                    }
                     return False;
                 }
             }
@@ -38,21 +49,17 @@
             private function addNewUsers($plan_id) {
                 global $con;
 
-                // cookie with all user email
-                $emails = $_COOKIE['emails'];
-
                 // add you into plan
                 // chnage tmp email to email from$_SESSION['email']
                 $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
                 VALUES($plan_id, (SELECT user_id FROM users WHERE email='jankolodziej99@gmail.com'))";
                 $query_insert_new_user = $con->query($sql_insert_new_user);
 
-                $emails = explode(",", $emails);
-                for($i=0; $i<sizeof($emails); $i++) {
+                for($i=0; $i<sizeof($this->entered_users); $i++) {
                     // add new user
                     // in this query I add function to find user id by his email
                     $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
-                    VALUES($plan_id, (SELECT user_id FROM users WHERE email='{$emails[$i]}'))";
+                    VALUES($plan_id, (SELECT user_id FROM users WHERE email='{$this->entered_users[$i]}'))";
                     $query_insert_new_user = $con->query($sql_insert_new_user);
 
                 }
@@ -85,12 +92,11 @@
             // if valid funciton return some error complete form with entered data
             public function printValuesFromForm() {
                 // print all box with added users
-                $added_users = explode(',',$_COOKIE['emails']);
-                for($i=0; $i<sizeof($added_users); $i++) {
+                for($i=0; $i<sizeof($this->entered_users); $i++) {
                     echo "
                         <div class='user'>
                             <div class='userEmail'>
-                                <span class='email' name='newUser'>{$added_users[$i]}</span>
+                                <span class='email' name='newUser'>{$this->entered_users[$i]}</span>
                             </div>
                             <a class='deleteButton'>X</a>
                         </div>";
