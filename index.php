@@ -11,7 +11,8 @@
     <?php
     
         include("header.php");
-
+        include("check_login.php");
+    
     ?>
 
     <div id="main-text">

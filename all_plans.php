@@ -10,15 +10,17 @@
 
     <?php
     
+        session_start();
+        
         include("header.php");
         include("connection.php");
+        include("check_login.php");
 
         class All_Plans {
             private $user_id;
 
             function __construct() {
-                // $this->user_id = $_SESSION['user_id'];
-                $this->user_id = 1;
+                $this->user_id = $_SESSION['user_id'];
             }
 
             function find_and_print() {
