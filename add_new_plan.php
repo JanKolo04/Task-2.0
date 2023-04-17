@@ -64,7 +64,7 @@
                 $query_insert_new_user = $con->query($sql_insert_new_user);
 
                 // if first index of array have value null don't add other users
-                if($this->entered_users[0] != 'null') {
+                if(!empty($this->entered_users[0])) {
                     for($i=0; $i<sizeof($this->entered_users); $i++) {
                         echo $i;
                         // add new user
