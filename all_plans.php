@@ -35,14 +35,15 @@
                     while($row = $query->fetch_assoc()) {
                         echo "
                             <div class='plan'>
-                                <div class='plan_photo'></div>
+                                <div class='plan_photo' style='background-color: {$row['bg_photo']};'>
+                                    <form method='POST'>
+                                        <button class='deletePlanButton' type='submit' name='delete' value='{$row['plan_id']}'>X</button>
+                                    </form>
+                                </div>
                                 <div class='plan_name_and_button'>
                                     <p class='plan_name'>{$row['name']}</p>
                                     <a href='plan.php?id={$row['plan_id']}' class='plan_button_to_open'>Open</a>
-                                </div>
-                                <form method='POST'>
-                                    <button type='submit' name='delete' value='{$row['plan_id']}'>X</button>
-                                </form>    
+                                </div>    
                             </div>
                         ";
                     }
