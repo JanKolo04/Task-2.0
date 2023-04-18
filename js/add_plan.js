@@ -1,6 +1,7 @@
 // constants variables
 const allAddedUsers = document.querySelector(".allAddedUsers");
 const countAddedUsers = document.querySelector("#usersCountValue");
+const addButton = document.querySelector(".addButton");
 
 let listOfAddedUsers = [];
 function AddNewUserBox() {
@@ -16,6 +17,10 @@ function AddNewUserBox() {
         }
         // push new user into array
         listOfAddedUsers.push(newEmail.value);
+        
+        // add margin to addButton and for container for users
+        addButton.style = "margin-left: 12.5px;";
+        allAddedUsers.style = "margin-left: 5px;";
         
         // create div for user email
         let user = document.createElement("div");

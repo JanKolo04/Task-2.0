@@ -91,7 +91,6 @@ input[type="text"], select, input[type="email"] {
 
 .usersSection > .addButton {
     margin-top: 0;
-    margin-left: 12.5px;
     padding: 0.5rem 1rem;
     font-size: 13px;
     display: flex;
