@@ -43,10 +43,6 @@ function AddNewUserBox() {
         // add one more if user was addded
         countAddedUsers.innerHTML = parseInt(countAddedUsers.innerHTML)+1;
         
-        // add email into cookie
-        // over write acctually cookie which have array with emails
-        PassEmailToCookies();
-
         //clear value after add
         newEmail.value = "";
     }
@@ -62,13 +58,12 @@ function CreateButton() {
 }
 
 function PassEmailToCookies() {
-    console.log(listOfAddedUsers)
-    if(listOfAddedUsers.length == 0) {
-        listOfAddedUsers = null
+    if(listOfAddedUsers.length != 0) {
+        const d = new Date();
+        d.setTime(d.getTime() + (24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = "emails="+listOfAddedUsers+";"+expires+";path=/";
     }
-    const d = new Date();
-    d.setTime(d.getTime() + (24*60*60*1000));
-    let expires = "expires="+ d.toUTCString();
-    document.cookie = "emails="+listOfAddedUsers+";"+expires+";path=/";
+
     
 }

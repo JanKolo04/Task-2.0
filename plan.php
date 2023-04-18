@@ -12,8 +12,11 @@
 
     <?php
 
+        session_start();
+
         include("header.php");
         include("connection.php");
+        include("check_login.php");
 
         // object with whole body of plan
         $plan = new Plan(); 

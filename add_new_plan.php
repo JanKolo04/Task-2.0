@@ -4,21 +4,27 @@
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="style/add_new_plan.css">
     <link type="text/css" rel="stylesheet" href="style/header_footer.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Week planer - Add new plan</title>
 </head>
 <body>
 
     <?php
 
+        session_start();
+
         include("header.php");
         include("connection.php");
-        
-        // create object from Plan class
-        $plan = new Plan();
+        include("check_login.php");
 
         class Plan {
             private $entered_users;
+            private $user_id;
+            private $user_email;
+
+            public function __construct() {
+                $this->user_id = $_SESSION['user_id'];
+                $this->user_email = $_SESSION['email'];
+            }
 
             private function validData() {
                 global $con;
@@ -39,7 +45,7 @@
                 else {
                     // if in entered users is your email return True
                     // replace tmp email with email from $_SESSION['email']
-                    if(in_array('jankolodziej99@gmail.com', $this->entered_users)) {
+                    if(in_array('$this->user_email', $this->entered_users)) {
                         echo "<script>alert('You canot add yourself into plan, because you will be add automatically')</script>";
                         return True;
                     }
@@ -51,14 +57,14 @@
                 global $con;
 
                 // add you into plan
-                // chnage tmp email to email from$_SESSION['email']
+                // chnage tmp email to email from $_SESSION['email']
                 $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
-                VALUES($plan_id, (SELECT user_id FROM users WHERE email='jankolodziej99@gmail.com'))";
+                VALUES($plan_id, (SELECT user_id FROM users WHERE email='{$this->user_email}'))";
 
                 $query_insert_new_user = $con->query($sql_insert_new_user);
 
                 // if first index of array have value null don't add other users
-                if($this->entered_users[0] != 'null') {
+                if(!empty($this->entered_users[0])) {
                     for($i=0; $i<sizeof($this->entered_users); $i++) {
                         echo $i;
                         // add new user
@@ -68,6 +74,20 @@
 
                         $query_insert_new_user = $con->query($sql_insert_new_user);
                     }
+                }
+            }
+
+            // if valid funciton return some error complete form with entered data
+            private function printValuesFromForm() {
+                // print all box with added users
+                for($i=0; $i<sizeof($this->entered_users); $i++) {
+                    echo "
+                        <div class='user'>
+                            <div class='userEmail'>
+                                <span class='email' name='newUser'>{$this->entered_users[$i]}</span>
+                            </div>
+                            <a class='deleteButton'>X</a>
+                        </div>";
                 }
             }
 
@@ -98,21 +118,9 @@
                     $this->printValuesFromForm();
                 }
             }
-
-            // if valid funciton return some error complete form with entered data
-            public function printValuesFromForm() {
-                // print all box with added users
-                for($i=0; $i<sizeof($this->entered_users); $i++) {
-                    echo "
-                        <div class='user'>
-                            <div class='userEmail'>
-                                <span class='email' name='newUser'>{$this->entered_users[$i]}</span>
-                            </div>
-                            <a class='deleteButton'>X</a>
-                        </div>";
-                }
-            }
         }
+
+        $plan = new Plan();
     ?>
 
 <div class="form">

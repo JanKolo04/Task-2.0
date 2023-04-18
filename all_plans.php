@@ -10,18 +10,20 @@
 
     <?php
     
+        session_start();
+        
         include("header.php");
         include("connection.php");
+        include("check_login.php");
 
-        class All_Plans {
+        class AllPlans {
             private $user_id;
 
-            function __construct() {
-                // $this->user_id = $_SESSION['user_id'];
-                $this->user_id = 1;
+            public function __construct() {
+                $this->user_id = $_SESSION['user_id'];
             }
 
-            function find_and_print() {
+            public function find_and_print() {
                 global $con;
                 
                 // find plans in which user is
@@ -33,11 +35,15 @@
                     while($row = $query->fetch_assoc()) {
                         echo "
                             <div class='plan'>
-                                <div class='plan_photo'></div>
+                                <div class='plan_photo' style='background-color: {$row['bg_photo']};'>
+                                    <form method='POST'>
+                                        <button class='deletePlanButton' type='submit' name='delete' value='{$row['plan_id']}'>X</button>
+                                    </form>
+                                </div>
                                 <div class='plan_name_and_button'>
                                     <p class='plan_name'>{$row['name']}</p>
                                     <a href='plan.php?id={$row['plan_id']}' class='plan_button_to_open'>Open</a>
-                                </div>
+                                </div>    
                             </div>
                         ";
                     }
@@ -45,8 +51,32 @@
             }
         }
 
-        $all_user_plans = new All_Plans();
+        class ManipulatePlans {
+            public static function deleteUsers($planId) {
+                global $con;
 
+                // find and delete users which are in plan
+                $sql = "DELETE FROM users_in_plan WHERE plan_id={$planId}";
+                $query = $con->query($sql);
+            }
+            public static function deletePlan($planId) {
+                global $con;
+
+                // run function with delete users from plan
+                self::deleteUsers($planId);
+                // delete plan
+                $sql = "DELETE FROM plans WHERE plan_id={$planId}";
+                $query = $con->query($sql);
+            }
+        }
+
+        // create object from class AllPlans
+        $all_user_plans = new AllPlans();
+
+        // if user click delete button run static function
+        if(isset($_POST['delete'])) {
+            ManipulatePlans::deletePlan($_POST['delete']);
+        }
     ?>
 
     <div id="all_plans">
