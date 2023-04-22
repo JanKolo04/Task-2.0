@@ -16,17 +16,8 @@
         include("connection.php");
         include("check_login.php");
 
-        class Plan {
-            private $entered_users;
-            private $user_id;
-            private $user_email;
-
-            public function __construct() {
-                $this->user_id = $_SESSION['user_id'];
-                $this->user_email = $_SESSION['email'];
-            }
-
-            private function validData() {
+        class ValidDataPlan {
+            protected function validData() {
                 global $con;
 
                 // add value into $entered_users property
@@ -53,6 +44,35 @@
                 }
             }
 
+            protected function checkUsers() {
+                global $con;
+                // check whether isset some users in array
+                if(!empty($this->entered_users[0])) {
+                    // check whether email which was entered isset in db
+                    for($i=0; $i<sizeof($this->entered_users); $i++) {
+                        $sql = "SELECT user_id FROM users WHERE email='{$this->entered_users[$i]}'";
+                        $query = $con->query($sql);
+                        
+                        if($query->num_rows == 0) {
+                            echo "<script>alert('User with this email ({$this->entered_users[$i]}) doesnt exist');</script>";
+                            return True;
+                        }
+                    }
+                }
+                return False;
+            }
+        }
+
+        class Plan extends ValidDataPlan {
+            protected $entered_users;
+            private $user_id;
+            private $user_email;
+
+            public function __construct() {
+                $this->user_id = $_SESSION['user_id'];
+                $this->user_email = $_SESSION['email'];
+            }
+
             private function addNewUsers($plan_id) {
                 global $con;
 
@@ -66,7 +86,6 @@
                 // if first index of array have value null don't add other users
                 if(!empty($this->entered_users[0])) {
                     for($i=0; $i<sizeof($this->entered_users); $i++) {
-                        echo $i;
                         // add new user
                         // in this query I add function to find user id by his email
                         $sql_insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) 
@@ -95,7 +114,7 @@
                 global $con;
                 
                 // if function validData() return False add new plan
-                if($this->validData() == False) {
+                if($this->validData() == False && $this->checkUsers() == False) {
                     // add new plan
                     $sql = "INSERT INTO plans(name, bg_photo) VALUES('{$_POST['planName']}', '{$_POST['planColor']}');";
                     $query = $con->query($sql);

@@ -70,9 +70,14 @@ function CreateButton(divId) {
         // user 
         let user = document.querySelector("#user"+divId);
         let emailUser = user.getAttribute("data-value");
+
+        // find index of emailUser in array
+        index = listOfAddedUsers.indexOf(emailUser);
         // delete user from list
-        // TODO: check how to delete a different value from array 
-        console.log(listOfAddedUsers);
+        listOfAddedUsers.splice(index,1);
+        // change count of user in counter
+        countAddedUsers.innerHTML = parseInt(countAddedUsers.innerHTML)-1;
+
         // delete user from div
         allAddedUsers.removeChild(user);
     }
