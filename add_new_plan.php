@@ -64,6 +64,7 @@
         }
 
         class Plan extends ValidDataPlan {
+            public $count_user;
             protected $entered_users;
             private $user_id;
             private $user_email;
@@ -97,7 +98,7 @@
             }
 
             // if valid funciton return some error complete form with entered data
-            private function printValuesFromForm() {
+            private function printEnteredUsers() {
                 // print all box with added users
                 for($i=0; $i<sizeof($this->entered_users); $i++) {
                     echo "
@@ -134,7 +135,7 @@
                     header("Location: plan.php?id={$plan_id}");
                 }
                 else {
-                    $this->printValuesFromForm();
+                    $this->printEnteredUsers();
                 }
             }
         }
@@ -152,7 +153,7 @@
 
         <label for="planUserInput">Użytkownik:</label>
         <input type="email" id="planUserEmail" name="planUserInput">
-        <span id="usersCount">Ilość uytkowników: <span id="usersCountValue">0</span>/2</span>
+        <span id="usersCount">Ilość uytkowników: <span id="usersCountValue"></span>/2</span>
     
         <div class="usersSection flexRow">
             <div class="allAddedUsers flexRow">

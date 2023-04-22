@@ -51,7 +51,7 @@ function AddNewUserBox() {
         let deleteButton = CreateButton(parseInt(countAddedUsers.innerHTML)+1);
         // append delete button into user section
         user.appendChild(deleteButton);
-        // add one more if user was addded
+        // update number of added users
         countAddedUsers.innerHTML = parseInt(countAddedUsers.innerHTML)+1;
         
         //clear value after add
@@ -93,3 +93,10 @@ function PassEmailToCookies() {
         document.cookie = "emails="+listOfAddedUsers+";"+expires+";path=/";
     }
 }
+
+function CheckCountOfUsers() {
+    let users_count = document.querySelectorAll(".user").length;
+    countAddedUsers.innerHTML = users_count;
+}
+
+CheckCountOfUsers();
