@@ -5,6 +5,18 @@ const addButton = document.querySelector(".addButton");
 const deleteButton = document.querySelector(".deleteButton");
 
 let listOfAddedUsers = [];
+
+function AddLostUsersIntoArray() {
+    let users = document.querySelectorAll(".email");
+    
+    // add emails into list
+    for(let i=0; i<users.length; i++) {
+        listOfAddedUsers.push(users[i].innerHTML);
+    }
+}
+
+AddLostUsersIntoArray();
+console.log(listOfAddedUsers);
 function AddNewUserBox() {
     let newEmail = document.querySelector("#planUserEmail");
     // valid data
@@ -16,15 +28,9 @@ function AddNewUserBox() {
                 return;
             }
         }
+        
         // push new user into array
         listOfAddedUsers.push(newEmail.value);
-        
-        // add margin to addButton and for container for users
-        // ----TODO: this style add to another function which check how many users is in list
-        // -------when list is empty remove all margins
-        // -------when list have more than 0 users add margins
-        addButton.style = "margin-left: 12.5px;";
-        allAddedUsers.style = "margin-left: 5px;";
         
         // create div for user email
         let user = document.createElement("div");
@@ -80,6 +86,7 @@ function CreateButton(divId) {
 
         // delete user from div
         allAddedUsers.removeChild(user);
+        PassEmailToCookies();
     }
 
     return button;
@@ -95,8 +102,17 @@ function PassEmailToCookies() {
 }
 
 function CheckCountOfUsers() {
+    // get count of added users and print this for allways showing count of added users
     let users_count = document.querySelectorAll(".user").length;
     countAddedUsers.innerHTML = users_count;
+}
+
+function AddStyle() {
+    // if in list exist min one user add css
+    if(countAddedUsers.innerHTML > 0) {
+        addButton.style = "margin-left: 12.5px;";
+        allAddedUsers.style = "margin-left: 5px;";
+    }
 }
 
 CheckCountOfUsers();
