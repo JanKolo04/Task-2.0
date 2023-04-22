@@ -101,12 +101,14 @@
             private function printEnteredUsers() {
                 // print all box with added users
                 for($i=0; $i<sizeof($this->entered_users); $i++) {
+                    // set new var with number because when I add +1 into $i in {} PHP return error
+                    $id = $i+1;
                     echo "
-                        <div class='user'>
+                        <div class='user' id='user{$id}' data-value='{$this->entered_users[$i]}'>
                             <div class='userEmail'>
                                 <span class='email' name='newUser'>{$this->entered_users[$i]}</span>
                             </div>
-                            <a class='deleteButton'>X</a>
+                            <a class='deleteButton' onclick='DeleteUser($id);'>X</a>
                         </div>";
                 }
             }

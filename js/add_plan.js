@@ -48,8 +48,7 @@ function AddNewUserBox() {
         let email = document.createElement("span");
         email.classList.add("email");
         // set name for new user
-        let nameForEmail = "newUser";
-        email.setAttribute("name", nameForEmail);
+        email.setAttribute("name", "newUser");
         email.innerHTML = newEmail.value;
         userEmail.appendChild(email);
 
@@ -70,26 +69,27 @@ function CreateButton(divId) {
     let button = document.createElement("a");
     button.classList.add("deleteButton");
     button.innerHTML = "X";
-
-    // create function to delete user form list
-    button.onclick = function() {
-        // user 
-        let user = document.querySelector("#user"+divId);
-        let emailUser = user.getAttribute("data-value");
-
-        // find index of emailUser in array
-        index = listOfAddedUsers.indexOf(emailUser);
-        // delete user from list
-        listOfAddedUsers.splice(index,1);
-        // change count of user in counter
-        countAddedUsers.innerHTML = parseInt(countAddedUsers.innerHTML)-1;
-
-        // delete user from div
-        allAddedUsers.removeChild(user);
-        PassEmailToCookies();
-    }
+    // setup onclick evenet for button
+    button.onclick = function() {DeleteUser(divId);};
 
     return button;
+}
+
+function DeleteUser(divId) {
+    // user 
+    let user = document.querySelector("#user"+divId);
+    let emailUser = user.getAttribute("data-value");
+
+    // find index of emailUser in array
+    index = listOfAddedUsers.indexOf(emailUser);
+    // delete user from list
+    listOfAddedUsers.splice(index,1);
+    // change count of user in counter
+    countAddedUsers.innerHTML = parseInt(countAddedUsers.innerHTML)-1;
+
+    // delete user from div
+    allAddedUsers.removeChild(user);
+    PassEmailToCookies();
 }
 
 function PassEmailToCookies() {
