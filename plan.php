@@ -17,40 +17,19 @@
         include("header.php");
         include("connection.php");
         include("check_login.php");
+        include("manipulate_task.php");
+        include("echo_plan_obj.php");
 
-        // object with whole body of plan
-        $plan = new Plan(); 
+        class Plan extends PrintPlanObjects {
+            private $plan_id;
+            private $quantity_of_user;
+            private $users_array = [];
 
-        // create object with function to manipulate tasks
-        $tasks_manipulation = new Tasks_manipulation();
-
-        // create new object with function to adding people into plan and manipulate with this data
-        $people_in_plan = new People_in_plan();
-
-        // check which function code have to run
-        if(isset($_POST['complete'])) {
-            $tasks_manipulation->complete_plan($_POST['complete']);
-        }
-        else if(isset($_POST['uncomplete'])) {
-            $tasks_manipulation->uncomplete_plan($_POST['uncomplete']);
-        }
-        else if(isset($_POST['delete'])) {
-            $tasks_manipulation->delete_plan($_POST['delete']);
-        }
-        else if(isset($_POST['add_task'])) {
-            $tasks_manipulation->add_task();
-        }
-
-        class Plan {
-            public $plan_id;
-            public $quantity_of_user;
-            public $users_array = [];
-
-            function __construct() {
+            public function __construct() {
                 $this->plan_id = $_GET['id'];
             }
 
-            function print_days_box() {
+            public function print_days_box() {
                 $dt = new DateTime();
                 // get name of current day
                 $current_day_name = date('D');
@@ -59,33 +38,36 @@
                     // short version of day name
                     $day_short_ver = date('D', strtotime($dt->format('Y-m-d')));
                     
-                    // set appropriate class
+                    // set appropriate class for day box
                     $class_day = "other";
                     if($current_day_name == $day_short_ver) {
                         $class_day = "today";
                     }
+
+                    // month short_ver
+                    $month_short_ver = date('M', strtotime($dt->format('Y-m-d')));
                     // number of day in month
                     $day_number = date("d", strtotime($dt->format('Y-m-d')));
+                    
                     // print first peice of section
                     echo "
                         <div class='day-container $class_day'>
                             <div class='day-name'>
-                                <h3>$day_short_ver <span class='day-date'>$day_number FEB</span></h3>
+                                <h3>$day_short_ver <span class='day-date'>$day_number $month_short_ver</span></h3>
                             </div>
                             <div class='plans-container'>
                     ";
-                    // print all plans 
-                    $this->fetch_all_plans(date('l', strtotime($dt->format('Y-m-d'))));
-                    // and finally close all divs
+                    // print all tasks which are of the day
+                    $this->fetch_all_tasks(date('l', strtotime($dt->format('Y-m-d'))));
                     echo "
                             </div>
                         </div>
-                    ";
-     
+                    ";        
+                    
                 }
             }
 
-            function fetch_all_plans($day) {
+            private function fetch_all_tasks($day) {
                 global $con;
                 // current week dates
                 $monday = date('Y-m-d', strtotime('monday this week'));
@@ -125,32 +107,12 @@
                         }
 
                         // print tasks
-                        echo "
-                            <div class='task {$row['type']}'>
-                                <form method='POST'>
-                                    <div class='task-top'>
-                                        <p class='task_name {$status}'>{$row['name']}</p>
-                                        <div class='flex-right'>$avatar</div>
-                                    </div>
-                                    
-                                    <div class='task-middle'>
-                                        <p class='task-description task-description-short' id='short_text_{$row['task_id']}'>$desc</p>
-                                        <p class='task-description show-more-text' id='show_more_{$row['task_id']}'>{$row['description']}</p>
-                                        <a class='show-more-button-task $show_more_class' onclick='show_more({$row['task_id']}, this)'>↑</a>
-                                    </div>
-
-                                    <div class='task-button-manipulation'>
-                                        <button type='submit' name='$complete_button' value='{$row['task_id']}'>√</button>
-                                        <button type='submit' name='delete' value='{$row['task_id']}'>X</button>
-                                    </div>
-                                </form>
-                            </div>
-                        ";
+                        $this->task($row, $status, $avatar, $desc, $show_more_class, $complete_button);
                     }
                 }
             }
 
-            function fetch_users_in_plan() {
+            public function fetch_users_in_plan() {
                 global $con;
 
                 // fetch name and surname of users which are in plan
@@ -178,88 +140,14 @@
             }
         }
 
-        class Tasks_manipulation {
-            private $plan_id;
-            public $users_in_array;
-
-            function __construct() {
-                $this->plan_id = $_GET['id'];
-            }
-
-            function complete_plan($task_id) {
-                global $con;
-                // complete plan
-                $sql = "UPDATE tasks SET status=1 WHERE task_id=$task_id";
-                $query = $con->query($sql);
-
-                if(!$query) {
-                    return "Something wrong";
-                }
-            }
-
-            function uncomplete_plan($task_id) {
-                global $con;
-                // uncomplete plan
-                $sql = "UPDATE tasks SET status=0 WHERE task_id=$task_id";
-                $query = $con->query($sql);
-
-                if(!$query) {
-                    return "Something wrong";
-                }
-            }
-
-            function delete_plan($task_id) {
-                global $con;
-                // delete plan
-                $sql = "DELETE FROM tasks WHERE task_id=$task_id";
-                $query = $con->query($sql);
-
-                if(!$query) {
-                    return "Something wrong";
-                }
-            }
-
-            function add_task() {
-                global $con;
-
-                $plan_type = "basic";
-                // validation
-                if($_POST['plan_name'] == "") {
-                    echo "Plan name is empty";
-                    return;
-                }
-                else if(!isset($_POST['date'])) {
-                    echo "Plan date is empty";
-                    return;
-                }
-                else if(isset($_POST['type'])) {
-                    $plan_type = $_POST['type'];
-                }
-
-                // day name of selected date
-                $day = date('l', strtotime($_POST['date']));
-                // get date of selected day
-                $date = date('Y-m-d', strtotime($_POST['date']));
-
-                // add new plan
-                $sql = "INSERT INTO tasks(plan_id, owner_id, name, description, day, date, type) VALUES({$this->plan_id}, {$_POST['owner_of_task']}, '{$_POST['plan_name']}', '{$_POST['plan_description']}', '$day', '$date', '$plan_type')";
-                $query = $con->query($sql);
-
-                if(!$query) {
-                    echo "Something wrong";
-         
-                }
-            }
-        }
-
         class People_in_plan {
             private $plan_id;
 
-            function __construct() {
+            public function __construct() {
                 $this->plan_id = $_GET['id'];
             }
 
-            function add_people() {
+            public function add_people() {
                 global $con, $plan, $add_new_user_error;
 
                 if($plan->count_users_in_plan() == 3) {
@@ -274,13 +162,11 @@
                 $search = "SELECT user_id FROM users WHERE email='$user_email'";
                 $query_search = $con->query($search);
 
+
                 $array_with_users = $plan->users_in_plan();
                 // check if user doesn't exist in plan
-                for($i=0; $i<sizeof($array_with_users); $i++) {
-                    // if user exist in plan return error
-                    if($user_email == $array_with_users[$i]) {
-                        return "User exist in plan";
-                    }
+                if(in_array($user_email, $array_with_users)) {
+                    return "User alrady exist in plan";
                 }
 
                 // check whether isset user in db with this email
@@ -291,7 +177,7 @@
                     $insert_new_user = "INSERT INTO users_in_plan(plan_id, user_id) VALUES({$this->plan_id}, {$new_user_id['user_id']})";
                     $query_indert_user = $con->query($insert_new_user);
                     // refresh page
-                    header("Refresh:0");
+                    header("Refresh: 0");
                 }
             }
         }
@@ -303,6 +189,27 @@
                 $day = date('l', strtotime($dt->format('Y-m-d')));
                 echo "<option>$day, {$dt->format('Y-m-d')}</option>";
             }
+        }
+
+        // object with whole body of plan
+        $plan = new Plan(); 
+
+        // create new object with function to adding people into plan and manipulate with this data
+        $people_in_plan = new People_in_plan();
+
+
+        // check which method of Task_manipulation have to run
+        if(isset($_POST['complete'])) {
+            Tasks_manipulation::complete_plan($_POST['complete']);
+        }
+        else if(isset($_POST['uncomplete'])) {
+            Tasks_manipulation::uncomplete_plan($_POST['uncomplete']);
+        }
+        else if(isset($_POST['delete'])) {
+            Tasks_manipulation::delete_plan($_POST['delete']);
+        }
+        else if(isset($_POST['add_task'])) {
+            Tasks_manipulation::add_task();
         }
         
     ?>
