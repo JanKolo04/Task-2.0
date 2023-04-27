@@ -1,5 +1,13 @@
-RewriteEngine on 
-RewriteCond %{REQUEST_FILENAME} !-d 
-RewriteCond %{REQUEST_FILENAME}\.php -f 
-RewriteRule ^(.*)$ $1.php
-RewriteRule ^([^/]+)/?$ controllers/$1.php [L]
+RewriteEngine On
+
+# move into pages when user enter /
+RewriteBase /
+RewriteRule ^$ pages/main.php [L]
+
+# Rewrite requests for URLs that don't end in a file extension to the corresponding PHP file in /controllers/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ pages/$1.php [NC,L]
+
+# error handling
+ErrorDocument 404 /pages/error.php
+

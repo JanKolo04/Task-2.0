@@ -7,12 +7,13 @@
 </head>
 <body>
     <?php
-        if($_SERVER['REQUEST_URI'] != '/') {
-            include __DIR__.'/controllers/about.php';
+
+        if(!file_exist('asdsad.php')) {
+            header('Location: about');
+            echo "Hi";
         }
-    
-        echo $_SERVER['REQUEST_URI'];
-        echo "Hi"; 
+        echo "Hi";
+
     ?>
 </body>
 </html>
