@@ -42,7 +42,7 @@
                                 </div>
                                 <div class='plan_name_and_button'>
                                     <p class='plan_name'>{$row['name']}</p>
-                                    <a href='plan.php?id={$row['plan_id']}' class='plan_button_to_open'>Open</a>
+                                    <a href='plan?id={$row['plan_id']}' class='plan_button_to_open'>Open</a>
                                 </div>    
                             </div>
                         ";
@@ -82,7 +82,7 @@
     <div id="all_plans">
         <?php $all_user_plans->find_and_print(); ?>
         <div class='plan add_plan'>
-            <a class="add_plan_button" href="add_new_plan.php">+</a>
+            <a class="add_plan_button" href="add_new_plan">+</a>
             <p class="plan_name">Add new plan</p>
         </div>
     </div>
