@@ -1,6 +1,6 @@
 <header>
     <div id="name">
-        <h3><a class="link" href="main.php">Week Planer</a></h3>
+        <h3><a class="link" href="index.php">Week Planer</a></h3>
     </div>
 
     <div id="links">
