@@ -1,0 +1,16 @@
+{
+    "name": "jankolodziej/htdocs",
+    "description": "Api from Task-2.0",
+    "type": "project",
+    "authors": [
+        {
+            "name": "JanKolo04"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "controller"
+        }
+    }
+}

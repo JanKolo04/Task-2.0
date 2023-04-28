@@ -7,13 +7,10 @@
 </head>
 <body>
     <?php
+        require_once "vendor/autoload.php";
 
-        if(!file_exist('asdsad.php')) {
-            header('Location: about');
-            echo "Hi";
-        }
-        echo "Hi";
-
+        $file_request_load = new Controller\AutoloadFilesRequest();
+        $file_request_load->importFile();
     ?>
 </body>
 </html>
