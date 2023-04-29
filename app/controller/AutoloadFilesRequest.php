@@ -5,31 +5,20 @@
     class AutoloadFilesRequest {
         public $file;
         public function __construct() {
-            $this->file = $_SERVER['REQUEST_URI'];
+            $this->file = $_SERVER['REDIRECT_URL'];
         }
-        public function checkExist() {
-            if($this->file == '/') {
-                return true;
-            }
-            else if(file_exists('pages/'.$this->file.'.php')) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        public function importFile() {
-            if($this->checkExist()) {
-                if($this->file == '/') {
-                    include 'pages/main.php';
-                }
-                else {
-                    include 'pages/'.$this->file.'.php';
-                }
-            }
-            else {
-                echo "Page not found";
+        
+        public function checkCorrectnessOfRequest() {
+            // check whether request is in switch
+            switch($this->file) {
+                case('/'):
+                    include 'Pages/main.php';
+                    break;
+                case('/users'):
+                    include 'Pages/Users/AllUsers.php';
+                    break;
+                default:
+                    include 'Pages/error.php';
             }
         }
     }

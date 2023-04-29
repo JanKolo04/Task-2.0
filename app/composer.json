@@ -10,7 +10,9 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Controller\\": "controller"
+            "Controller\\": "controller",
+            "Users\\": "Pages/Users",
+            "Connection\\": "Settings"
         }
     }
 }
