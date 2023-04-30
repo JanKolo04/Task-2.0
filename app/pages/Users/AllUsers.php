@@ -8,11 +8,13 @@
     class AllUsers {
         private $con;
         private $user_id;
+        private $data = array();
 
         public function __construct() {
             // setup properties
             $this->con = Connection::connect();
-            // use short version of if for better performance
+            // ternary operator with $_GET['id']
+            // if $_GET['id'] is not empty set value to $user_id of $_GET['id'] but if is set "" for $user_id
             $this->user_id = !empty($_GET['id']) ? $_GET['id'] : "";
         }
 
@@ -21,12 +23,18 @@
             $sql = "SELECT * FROM users";
             $query = $this->con->query($sql);
         
-            // print data about all users
+            // append all users data into assoc array
+            $counter = 0;
             if($query->num_rows > 0) {
                 while($row = $query->fetch_assoc()) {
-                    echo "{$row['user_id']} {$row['name']} {$row['surname']}</br>";
+                    // append data into array
+                    $this->data += [$counter => $row];
+                    $counter += 1;
                 }
             }
+            
+            // return array with data in json format and with UTF-8 codding
+            return json_encode($this->data, JSON_UNESCAPED_UNICODE);
         }
 
         public function choosedUser() {
@@ -35,22 +43,24 @@
             $query = $this->con->query($sql);
 
             if($query->num_rows > 0) {
-                // print data
-                $row = $query->fetch_assoc();
-                echo "{$row['user_id']} {$row['name']} {$row['surname']}</br>";
+                // append data into array
+                $this->data = $query->fetch_assoc();
             }
             else {
-                echo "User with <b>id {$this->user_id}</b> doesnt exist";
+                return "User with <b>id {$this->user_id}</b> doesnt exist";
             }
+
+            // return array with data in json format and with UTF-8 codding
+            return json_encode($this->data, JSON_UNESCAPED_UNICODE);
         }
 
         public function chooseCorrectMethod() {
             // if user add in url ?id=1 so function with choosedUser will be run
             if(!empty($this->user_id)) {
-                $this->choosedUser();
+                echo $this->choosedUser();
             }
             else {
-                $this->getAllUsers();
+                echo $this->getAllUsers();
             }
         }
     }

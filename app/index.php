@@ -11,7 +11,6 @@
 
         $file_request_load = new Controller\AutoloadFilesRequest();
         $file_request_load->checkCorrectnessOfRequest();
-
     ?>
 </body>
 </html>
