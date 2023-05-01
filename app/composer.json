@@ -7,7 +7,9 @@
             "name": "JanKolo04"
         }
     ],
-    "require": {},
+    "require": {
+        "mistic100/randomcolor": "^1.0.6"
+    },
     "autoload": {
         "psr-4": {
             "Controller\\": "controller",

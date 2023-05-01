@@ -20,6 +20,9 @@
                 case('/users'):
                     include 'Pages/Users/AllUsers.php';
                     break;
+                case('/adduser'):
+                    include 'Pages/Users/AddUser.php';
+                    break;
                 default:
                     include 'Pages/error.php';
             }
