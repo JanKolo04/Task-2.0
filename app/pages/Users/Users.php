@@ -5,7 +5,7 @@
     // import object with connection with database
     use Connection\Connection;
 
-    class AllUsers {
+    class Users {
         private $con;
         private $user_id;
         private $data = array();
@@ -55,7 +55,7 @@
         }
 
         public function chooseCorrectMethod() {
-            // if user add in url ?id=1 so function with choosedUser will be run
+            // if user add in url '?id=1' so function with choosedUser will be run
             if(!empty($this->user_id)) {
                 echo $this->choosedUser();
             }
@@ -65,7 +65,7 @@
         }
     }
 
-    $users = new AllUsers();
+    $users = new Users();
     $users->chooseCorrectMethod();
 
 

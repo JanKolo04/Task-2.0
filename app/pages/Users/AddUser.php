@@ -3,9 +3,9 @@
     namespace Users;
 
     use Connection\Connection;
-    use \Colors\RandomColor;
+    use Colors\RandomColor;
 
-    class Adduser {
+    class AddUser {
         private $con;
         private $date;
         private $avatar;

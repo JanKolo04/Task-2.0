@@ -14,7 +14,7 @@
     class Connection {
         static public function connect() {
             // 
-            $con = new mysqli("localhost", "root", "", "week_planer");
+            $con = new mysqli("127.0.0.1", "root", "", "week_planer");
 
             if($con->connect_error) {
                 echo "Error with connection with db";

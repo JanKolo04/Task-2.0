@@ -18,7 +18,7 @@
                     include 'Pages/main.php';
                     break;
                 case('/users'):
-                    include 'Pages/Users/AllUsers.php';
+                    include 'Pages/Users/users.php';
                     break;
                 case('/adduser'):
                     include 'Pages/Users/AddUser.php';
