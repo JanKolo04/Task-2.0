@@ -13,8 +13,8 @@
     "autoload": {
         "psr-4": {
             "Controller\\": "controller",
-            "Users\\": "Pages/Users",
-            "Connection\\": "Settings"
+            "Users\\": "src/Users",
+            "Database\\": "Database"
         }
     },
     "require-dev": {

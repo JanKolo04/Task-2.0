@@ -2,7 +2,7 @@
 
     namespace Users;
 
-    use Connection\Connection;
+    use Database\Connection;
     use Colors\RandomColor;
 
     class AddUser {

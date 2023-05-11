@@ -3,7 +3,7 @@
     namespace Users;
 
     // import object with connection with database
-    use Connection\Connection;
+    use Database\Connection;
 
     class Users {
         private $con;

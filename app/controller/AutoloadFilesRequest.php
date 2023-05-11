@@ -15,16 +15,16 @@
             // check whether request is in switch
             switch($this->file) {
                 case(''):
-                    include 'Pages/main.php';
+                    include 'src/main.php';
                     break;
                 case('/users'):
-                    include 'Pages/Users/users.php';
+                    include 'src/Users/users.php';
                     break;
                 case('/adduser'):
-                    include 'Pages/Users/AddUser.php';
+                    include 'src/Users/AddUser.php';
                     break;
                 default:
-                    include 'Pages/error.php';
+                    include 'src/error.php';
             }
         }
     }
