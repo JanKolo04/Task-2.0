@@ -2,6 +2,7 @@
 
     namespace Users;
 
+    // create alias of class
     use Database\Connection;
     use Colors\RandomColor;
 
@@ -14,7 +15,21 @@
             $this->con = Connection::connect();
         }
 
-        public function checkExist() {
+        private function validation() {
+            // check whether exist $_POST which is empty
+            foreach($_POST as $key => $value) {
+                if($key == 'avatar') {
+                    continue;
+                }
+                // if any POST is empty return True
+                else if(empty($value)) {
+                    return True;
+                }
+            }
+            return False;
+        }
+
+        private function checkExist() {
             // try to find user with entered email
             $sql = "SELECT user_id FROM users WHERE email='{$_POST['email']}'";
             $query = $this->con->query($sql);
@@ -27,11 +42,6 @@
             return False;
         }
 
-        public function currentDate() {
-            // add to $this->date current date
-            $this->date = date('Y-m-d');
-        }
-
         private function hashPassword($passwd) {
             // hash password for security
             $hash = password_hash($passwd, PASSWORD_DEFAULT);
@@ -42,35 +52,40 @@
         public function checkAvatar() {
             // if $_POST['avatat'] is empty generate random hex color
             if(empty($_POST['avatar'])) {
-                $this->avatar = RandomColor::one();
+                return RandomColor::one();
             }
 
-            $this->avatar = $_POST['avatar'];
+            return $_POST['avatar'];
         }
 
         public function add() {
-            // if checkExist return False add new user, but if not return message
-            if($this->checkExist() == False) {
-                // hash password
-                $hash = $this->hashPassword($_POST['password']);
+            // if checkExist return False and validation funciton return False add new user, but if not return message
+            if($this->validation() == False) {
+                if($this->checkExist() == False) {
+                    // hash password
+                    $hash = $this->hashPassword($_POST['password']);
+                    // set current date
+                    $this->date = date('Y-m-d');
 
-                // add new user
-                $sql = "INSERT INTO users(name, surname, email, password, join_date, avatar) 
-                        VALUES('{$_POST['name']}', '{$_POST['surname']}', '{$_POST['email']}', '$hash', '{$this->date}', '{$this->avatar}')";
-                $query = $this->con->query($sql);
+                    // add new user
+                    $sql = "INSERT INTO users(name, surname, email, password, join_date, avatar) 
+                            VALUES('{$_POST['name']}', '{$_POST['surname']}', '{$_POST['email']}', '$hash', '{$this->date}', '{$this->checkAvatar()}')";
+                    $query = $this->con->query($sql);
+                }
+                else {
+                    echo "User exist with this email";
+                }
             }
             else {
-                echo "User exist with this email";
+                echo "An input is empty";
             }
         }
     }
 
-    $addUser = new AddUser();
-    // if REQUEST_METHOD equals POST run methods
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
-        $addUser->currentDate();
-        $addUser->checkAvatar();
-        $addUser->add();
-    }
+    // $addUser = new AddUser();
+    // // if REQUEST_METHOD equals POST run methods
+    // if($_SERVER['REQUEST_METHOD'] == "POST") {
+    //     $addUser->add();
+    // }
 
 ?>

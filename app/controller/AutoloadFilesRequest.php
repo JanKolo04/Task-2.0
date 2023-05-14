@@ -17,8 +17,8 @@
                 case(''):
                     include 'src/main.php';
                     break;
-                case('/users'):
-                    include 'src/Users/users.php';
+                case('/user'):
+                    include 'src/Users/User.php';
                     break;
                 case('/adduser'):
                     include 'src/Users/AddUser.php';

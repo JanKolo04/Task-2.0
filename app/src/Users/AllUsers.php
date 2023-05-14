@@ -5,7 +5,7 @@
     // import object with connection with database
     use Database\Connection;
 
-    class Users {
+    class AllUsers {
         private $con;
         private $user_id;
         private $data = array();
@@ -65,8 +65,8 @@
         }
     }
 
-    $users = new Users();
-    $users->chooseCorrectMethod();
+    // $users = new Users();
+    // $users->chooseCorrectMethod();
 
 
 ?>
