@@ -13,8 +13,9 @@
     "autoload": {
         "psr-4": {
             "Controller\\": "controller",
-            "Users\\": "src/Users",
-            "Database\\": "Database"
+            "User\\": "src/User",
+            "Database\\": "Database",
+            "Themplates\\": "Themplates"
         }
     },
     "require-dev": {

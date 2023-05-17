@@ -18,10 +18,10 @@
                     include 'src/main.php';
                     break;
                 case('/user'):
-                    include 'src/Users/User.php';
+                    include 'src/User/User.php';
                     break;
-                case('/adduser'):
-                    include 'src/Users/AddUser.php';
+                case('/plan'):
+                    include 'src/Plan/Plan.php';
                     break;
                 default:
                     include 'src/error.php';

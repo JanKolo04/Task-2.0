@@ -1,6 +1,6 @@
 <?php
 
-    namespace Users;
+    namespace User\Option;
 
     // create alias of class
     use Database\Connection;
@@ -81,11 +81,5 @@
             }
         }
     }
-
-    // $addUser = new AddUser();
-    // // if REQUEST_METHOD equals POST run methods
-    // if($_SERVER['REQUEST_METHOD'] == "POST") {
-    //     $addUser->add();
-    // }
 
 ?>

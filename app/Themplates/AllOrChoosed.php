@@ -1,26 +1,32 @@
 <?php
 
-    namespace Users;
+    namespace Themplates;
 
     // import object with connection with database
     use Database\Connection;
 
-    class AllUsers {
+    class AllOrChoosed {
         private $con;
-        private $user_id;
+        private $id;
+        private $table;
+        private $id_name;
         private $data = array();
 
-        public function __construct() {
+        public function __construct($table, $id_name) {
             // setup properties
             $this->con = Connection::connect();
             // ternary operator with $_GET['id']
-            // if $_GET['id'] is not empty set value to $user_id of $_GET['id'] but if is set "" for $user_id
-            $this->user_id = !empty($_GET['id']) ? $_GET['id'] : "";
+            // if $_GET['id'] is not empty set value to $id of $_GET['id'] but if is set "" for $id
+            $this->id = !empty($_GET['id']) ? $_GET['id'] : "";
+            // add table
+            $this->table = $table;
+            // set id name for function where user what to get data with choosed id
+            $this->id_name = $id_name;
         }
 
-        public function getAllUsers() {
-            // fetch all users from 'users' table
-            $sql = "SELECT * FROM users";
+        public function getAllData($table) {
+            // fetch all data from 'table' table
+            $sql = "SELECT * FROM {$table}";
             $query = $this->con->query($sql);
         
             // append all users data into assoc array
@@ -37,9 +43,9 @@
             return json_encode($this->data, JSON_UNESCAPED_UNICODE);
         }
 
-        public function choosedUser() {
-            // fetch data about choosed user from 'users' table
-            $sql = "SELECT * FROM users WHERE user_id={$this->user_id}";
+        public function choosedData($table, $id, $id_name) {
+            // fetch data about choosed user from 'table' table
+            $sql = "SELECT * FROM {$table} WHERE {$id_name}={$id}";
             $query = $this->con->query($sql);
 
             if($query->num_rows > 0) {
@@ -47,7 +53,7 @@
                 $this->data = $query->fetch_assoc();
             }
             else {
-                return "User with <b>id {$this->user_id}</b> doesnt exist";
+                return "Data with <b>id {$id}</b> doesnt exist";
             }
 
             // return array with data in json format and with UTF-8 codding
@@ -55,18 +61,15 @@
         }
 
         public function chooseCorrectMethod() {
-            // if user add in url '?id=1' so function with choosedUser will be run
-            if(!empty($this->user_id)) {
-                echo $this->choosedUser();
+            // if ?id='id_of_data' is not empty run choosedData method
+            if(!empty($this->id)) {
+                echo $this->choosedData($this->table, $this->id, $this->id_name);
             }
             else {
-                echo $this->getAllUsers();
+                echo $this->getAllData($this->table);
             }
         }
     }
-
-    // $users = new Users();
-    // $users->chooseCorrectMethod();
 
 
 ?>
