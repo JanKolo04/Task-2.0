@@ -2,7 +2,7 @@
 
     namespace Controller;
 
-    class AutoloadFilesRequest {
+    class Routes {
         public $file;
         public function __construct() {
             // create ternary operator with $_SERVER['REDIRECT_URL'] for $file variable

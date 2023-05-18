@@ -15,13 +15,11 @@
                 $plans = new AllOrChoosed("plans", "plan_id");
                 $plans->chooseCorrectMethod();
             }
-            /*
             else if($_SERVER['REQUEST_METHOD'] == "POST") {
-                // create obj off class from AddUser.php
-                $addUser = new Option\AddUser();
-                $addUser->add();
+                // create obj off class from Option/AddPlan.php
+                $addPlan = new Option\AddPlan();
+                $addPlan->addPlan();
             }
-            */
         }
     }
 
