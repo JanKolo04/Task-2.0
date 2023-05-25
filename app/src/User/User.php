@@ -14,12 +14,14 @@
                 // table - table from which will be geting data
                 // id_name - column name with id in 'table'
                 $users = new AllOrChoosed("users", "user_id");
-                $users->chooseCorrectMethod();
+                $correct_method = $users->chooseCorrectMethod();
+                echo $correct_method;
             }
             else if($_SERVER['REQUEST_METHOD'] == "POST") {
                 // create obj off class from Option/AddUser.php
                 $addUser = new Option\AddUser();
-                $addUser->add();
+                $add_user = $addUser->add($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['password'], $_POST['avatar']);
+                echo $add_user;
             }
         }
     }

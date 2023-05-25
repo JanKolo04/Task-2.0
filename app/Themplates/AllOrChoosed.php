@@ -63,10 +63,12 @@
         public function chooseCorrectMethod() {
             // if ?id='id_of_data' is not empty run choosedData method
             if(!empty($this->id)) {
-                echo $this->choosedData($this->table, $this->id, $this->id_name);
+                $choose_data = $this->choosedData($this->table, $this->id, $this->id_name);
+                echo $choose_data;
             }
             else {
-                echo $this->getAllData($this->table);
+                $allData = $this->getAllData($this->table);
+                echo $allData;
             }
         }
     }
