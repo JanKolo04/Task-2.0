@@ -1,0 +1,25 @@
+{
+    "name": "jankolodziej/htdocs",
+    "description": "Api from Task-2.0",
+    "type": "project",
+    "authors": [
+        {
+            "name": "JanKolo04"
+        }
+    ],
+    "require": {
+        "mistic100/randomcolor": "^1.0.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "controller",
+            "User\\": "src/User",
+            "Plan\\": "src/Plan",
+            "Database\\": "Database",
+            "Themplates\\": "Themplates"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.1"
+    }
+}
